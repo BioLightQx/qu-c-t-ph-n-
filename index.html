@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gửi Thảo</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #ffe5ec, #ffc2d1);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow-x: hidden;
+        }
+
+        .container {
+            text-align: center;
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            max-width: 500px;
+            width: 90%;
+            transition: all 0.5s ease;
+        }
+
+        h1 {
+            color: #ff477e;
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+
+        .btn-group {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 30px;
+            height: 50px;
+            position: relative;
+        }
+
+        button {
+            padding: 12px 30px;
+            font-size: 18px;
+            font-weight: bold;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        #btn-yes {
+            background-color: #ff477e;
+            color: white;
+        }
+
+        #btn-yes:hover {
+            transform: scale(1.1);
+            background-color: #ff0a54;
+        }
+
+        #btn-no {
+            background-color: #6c757d;
+            color: white;
+            position: absolute;
+            left: 55%;
+        }
+
+        /* Giao diện sau khi bấm Yes */
+        .hidden {
+            display: none !important;
+        }
+
+        .wishes-content {
+            animation: fadeIn 1s ease;
+        }
+
+        .name {
+            font-size: 28px;
+            color: #ff0a54;
+            font-weight: bold;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .grid-game {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        /* Thẻ Minigame lật */
+        .card {
+            height: 100px;
+            perspective: 1000px;
+            cursor: pointer;
+        }
+
+        .card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+
+        .card.flipped .card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .card-front, .card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            padding: 10px;
+            font-size: 15px;
+            font-weight: bold;
+        }
+
+        .card-front {
+            background-color: #ff85a2;
+            color: white;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .card-back {
+            background-color: #f72585;
+            color: white;
+            transform: rotateY(180deg);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- MÀN HÌNH ĐẦU TIÊN -->
+    <div class="container" id="question-box">
+        <h1>Thảo ơi, Thảo có muốn nhận quà 20/10 không nè? 🌸</h1>
+        <div class="btn-group">
+            <button id="btn-yes">YES</button>
+            <button id="btn-no">NO</button>
+        </div>
+    </div>
+
+    <!-- MÀN HÌNH CHÚC MỪNG VÀ GAME -->
+    <div class="container hidden" id="wishes-box">
+        <div class="wishes-content">
+            <span class="name">Lê Nguyễn Phương Thảo ✨</span>
+            <p style="font-size: 18px; color: #4a4a4a; line-height: 1.5;">
+                Chúc em có một ngày <strong>Phụ nữ Việt Nam 20/10</strong> thật hạnh phúc, luôn vui vẻ và tràn ngập niềm vui nhé! 💕
+            </p>
+            
+            <p style="margin-top: 20px; font-weight: bold; color: #ff477e;">👇 Hãy lật các ô may mắn dưới đây nha:</p>
+            
+            <!-- Khu vực Minigame -->
+            <div class="grid-game">
+                <div class="card" onclick="flipCard(this)">
+                    <div class="card-inner">
+                        <div class="card-front">Hộp quà 1 🎁</div>
+                        <div class="card-back">Chúc Thảo luôn xinh đẹp tuyệt trần! 💃</div>
+                    </div>
+                </div>
+                <div class="card" onclick="flipCard(this)">
+                    <div class="card-inner">
+                        <div class="card-front">Hộp quà 2 🎁</div>
+                        <div class="card-back">Nói chân thành là anh thích em lắm đó! ❤️</div>
+                    </div>
+                </div>
+                <div class="card" onclick="flipCard(this)">
+                    <div class="card-inner">
+                        <div class="card-front">Hộp quà 3 🎁</div>
+                        <div class="card-back">Thảo siêu cấp dễ thương luôn! 🥰</div>
+                    </div>
+                </div>
+                <div class="card" onclick="flipCard(this)">
+                    <div class="card-inner">
+                        <div class="card-front">Hộp quà 4 🎁</div>
+                        <div class="card-back">Iu anh nhiều hơn đi màaaa 🥺</div>
+                    </div>
+                </div>
+                <div class="card" onclick="flipCard(this)">
+                    <div class="card-inner">
+                        <div class="card-front">Hộp quà 5 🎁</div>
+                        <div class="card-back">Anh muốn cắn em một cái ghê! 🐯</div>
+                    </div>
+                </div>
+                <div class="card" onclick="flipCard(this)">
+                    <div class="card-inner">
+                        <div class="card-front">Hộp quà 6 🎁</div>
+                        <div class="card-back">Tối nay làm 3 nháy nhé? 😉</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const btnNo = document.getElementById('btn-no');
+        const btnYes = document.getElementById('btn-yes');
+        const questionBox = document.getElementById('question-box');
+        const wishesBox = document.getElementById('wishes-box');
+
+        // Danh sách các câu nài nỉ khi rê vào nút NO
+        const noTexts = ["Không rồi làm ơn 🥺", "No pleaseee 😭", "Đừng bấm đây mà :((", "Bấm YES đi Thảo ơi!", "Khum cho bấm đâuu"];
+        let textIndex = 0;
+
+        // Hàm xử lý khi rê chuột (hoặc chạm trên điện thoại) vào nút NO
+        function moveNoButton() {
+            // Thay đổi chữ
+            btnNo.innerText = noTexts[textIndex];
+            textIndex = (textIndex + 1) % noTexts.length;
+
+            // Nhảy vị trí ngẫu nhiên
+            const x = Math.random() * (window.innerWidth - btnNo.offsetWidth - 50);
+            const y = Math.random() * (window.innerHeight - btnNo.offsetHeight - 50);
+            
+            btnNo.style.position = 'fixed';
+            btnNo.style.left = x + 'px';
+            btnNo.style.top = y + 'px';
+        }
+
+        btnNo.addEventListener('mouseover', moveNoButton);
+        btnNo.addEventListener('touchstart', function(e) {
+            e.preventDefault(); // Chặn bấm trên điện thoại, ép nhảy vị trí
+            moveNoButton();
+        });
+
+        // Hàm xử lý khi bấm YES
+        btnYes.addEventListener('click', () => {
+            questionBox.classList.add('hidden');
+            wishesBox.classList.remove('hidden');
+        });
+
+        // Hàm lật thẻ minigame
+        function flipCard(card) {
+            card.classList.toggle('flipped');
+        }
+    </script>
+</body>
+</html>
+<!-- Nút chuyển sang phần câu hỏi -->
+<div style="margin-top: 25px;">
+    <button id="btn-next" style="background-color: #ff0a54; color: white;">Tiếp theo 💕</button>
+</div>
+
+<!-- MÀN HÌNH 10 CÂU HỎI -->
+<div class="container hidden" id="quiz-box" style="margin-top: 20px; box-shadow: none; background: transparent; padding: 0; max-width: 100%;">
+    <div id="quiz-card" style="background: white; padding: 25px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
+        <h2 id="question-title" style="color: #ff477e; font-size: 20px; margin-bottom: 15px;"></h2>
+        <div id="lives-display" style="font-size: 16px; color: #e63946; font-weight: bold; margin-bottom: 15px;"></div>
+        
+        <div id="answer-area"></div>
+        <p id="quiz-message" style="margin-top: 15px; font-weight: bold; color: #ff0a54;"></p>
+    </div>
+</div>
+
+<!-- MÀN HÌNH KẾT QUẢ CUỐI CÙNG -->
+<div class="container hidden" id="result-box" style="margin-top: 20px;">
+    <h2 style="color: #ff0a54; font-size: 24px; margin-bottom: 15px;" id="result-text"></h2>
+    <p style="font-size: 28px; font-weight: bold; color: #ff477e;" id="final-moaz"></p>
+</div>
